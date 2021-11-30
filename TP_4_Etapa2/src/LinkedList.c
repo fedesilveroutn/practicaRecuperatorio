@@ -162,7 +162,7 @@ int ll_add(LinkedList* this, void* pElement)
     int returnAux = -1;
     int len;
 
-    if( this != NULL)
+    if( this != NULL )
     {
     	len = ll_len(this);
     	addNode(this, len, pElement);

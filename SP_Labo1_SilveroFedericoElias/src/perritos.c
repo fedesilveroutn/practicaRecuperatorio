@@ -1,13 +1,24 @@
 #include "perritos.h"
 
+/**
+ * @brief
+ * @return
+ */
 ePerro* perro_new()
 {
 	ePerro* new = NULL;
 	new = (ePerro*) malloc (sizeof(ePerro));
 	return new;
 }
-
-
+/**
+ * @brief
+ * @param id
+ * @param nombre
+ * @param peso
+ * @param edad
+ * @param raza
+ * @return
+ */
 ePerro* perro_newParam(char* id, char* nombre, char* peso, char* edad, char* raza)
 {
 	ePerro* new;
@@ -24,9 +35,12 @@ ePerro* perro_newParam(char* id, char* nombre, char* peso, char* edad, char* raz
 
 	return new;
 }
-
-
-
+/**
+ * @brief
+ * @param this
+ * @param id
+ * @return
+ */
 int perro_setId (ePerro* this, char* id)
 {
 	int ret = 1;
@@ -39,7 +53,12 @@ int perro_setId (ePerro* this, char* id)
 	}
 	return ret;
 }
-
+/**
+ * @brief
+ * @param this
+ * @param nombre
+ * @return
+ */
 int perro_setNombre(ePerro* this, char* nombre)
 {
 	int ret = 1;
@@ -50,7 +69,12 @@ int perro_setNombre(ePerro* this, char* nombre)
 	}
 	return ret;
 }
-
+/**
+ * @brief
+ * @param this
+ * @param peso
+ * @return
+ */
 int perro_setPeso (ePerro* this, char* peso)
 {
 	int ret = 1;
@@ -63,7 +87,12 @@ int perro_setPeso (ePerro* this, char* peso)
 	}
 	return ret;
 }
-
+/**
+ * @brief
+ * @param this
+ * @param edad
+ * @return
+ */
 int perro_setEdad (ePerro* this, char* edad)
 {
 	int ret = 1;
@@ -76,7 +105,12 @@ int perro_setEdad (ePerro* this, char* edad)
 	}
 	return ret;
 }
-
+/**
+ * @brief
+ * @param this
+ * @param raza
+ * @return
+ */
 int perro_setRaza(ePerro* this, char* raza)
 {
 	int ret = 1;
@@ -87,8 +121,12 @@ int perro_setRaza(ePerro* this, char* raza)
 	}
 	return ret;
 }
-
-
+/**
+ * @brief
+ * @param this
+ * @param racion
+ * @return
+ */
 int perro_setCantidadComida (ePerro* this, float racion)
 {
 	int ret = 1;
@@ -99,14 +137,11 @@ int perro_setCantidadComida (ePerro* this, float racion)
 	}
 	return ret;
 }
-
-
-
-
-
-
-
-
+/**
+ * @brief
+ * @param this
+ * @return
+ */
 int perro_getId(ePerro* this)
 {
 	int id = -1;
@@ -118,7 +153,12 @@ int perro_getId(ePerro* this)
 
 	return id;
 }
-
+/**
+ * @brief
+ * @param this
+ * @param nombre
+ * @return
+ */
 int perro_getNombre(ePerro* this, char* nombre)
 {
 	int ret = -1;
@@ -131,8 +171,11 @@ int perro_getNombre(ePerro* this, char* nombre)
 
 	return ret;
 }
-
-
+/**
+ * @brief
+ * @param this
+ * @return
+ */
 float perro_getPeso(ePerro* this)
 {
 	float peso = -1;
@@ -143,11 +186,11 @@ float perro_getPeso(ePerro* this)
 
 	return peso;
 }
-
-
-
-
-
+/**
+ * @brief
+ * @param this
+ * @return
+ */
 int perro_getEdad(ePerro* this)
 {
 	int edad = -1;
@@ -158,11 +201,12 @@ int perro_getEdad(ePerro* this)
 
 	return edad;
 }
-
-
-
-
-
+/**
+ * @brief
+ * @param this
+ * @param raza
+ * @return
+ */
 int perro_getRaza(ePerro* this, char* raza)
 {
 	int ret = -1;
@@ -175,8 +219,11 @@ int perro_getRaza(ePerro* this, char* raza)
 
 	return ret;
 }
-
-
+/**
+ * @brief
+ * @param this
+ * @return
+ */
 float perro_getRacion(ePerro* this)
 {
 	float racion = -1;
@@ -187,17 +234,11 @@ float perro_getRacion(ePerro* this)
 
 	return racion;
 }
-
-
-
-
-
-
 /**
- *
+ * @brief
  * @param pFile
  * @param pListaPerritos
- * @return 1 si hubo error, 0 si salio bien
+ * @return
  */
 int perro_parser(FILE* pFile , LinkedList* pListaPerritos)
 {
@@ -224,8 +265,41 @@ int perro_parser(FILE* pFile , LinkedList* pListaPerritos)
 
 	return ret;
 }
+/**
+ * @brief
+ * @param pFile
+ * @param pListaPerritos
+ * @return
+ */
+int perro_parserBinary(FILE* pFile, LinkedList* pListaPerritos)
+{
+	int ret = 1;
 
 
+	if(pFile != NULL && pListaPerritos != NULL)
+	{
+		while( !feof(pFile) )
+		{
+			ePerro* auxPerro = perro_new();
+			fread(auxPerro, sizeof(ePerro), 1 , pFile);
+			if( feof (pFile) )
+			{
+				ret = 0;
+				break;
+			}
+
+			ll_add(pListaPerritos, auxPerro);
+		}
+	}
+
+	return ret;
+}
+/**
+ * @brief
+ * @param path
+ * @param pListaPerros
+ * @return
+ */
 int perro_load(char* path , LinkedList* pListaPerros)
 {
 	FILE* pFile;
@@ -244,10 +318,34 @@ int perro_load(char* path , LinkedList* pListaPerros)
 	fclose(pFile);
 	return ret;
 }
+/**
+ * @brief
+ * @param path
+ * @param pListaPerros
+ * @return
+ */
+int perro_loadFromBinary(char* path, LinkedList* pListaPerros)
+{
+	int ret = 1;
+	FILE* pFile;
 
+	if( path != NULL && pListaPerros != NULL)
+	{
+		pFile = fopen(path, "rb");
+		if(pFile != NULL)
+		{
+			ret = perro_parserBinary(pFile, pListaPerros);
+		}
+	}
 
-
-
+	return ret;
+}
+/**
+ * @brief
+ * @param pointer1
+ * @param pointer2
+ * @return
+ */
 int perro_sortByName(void* pointer1 , void* pointer2)
 {
 	ePerro* aux1 = (ePerro*) pointer1;
@@ -266,9 +364,11 @@ int perro_sortByName(void* pointer1 , void* pointer2)
 	aux2 = NULL;
 	return ret;
 }
-
-
-
+/**
+ * @brief
+ * @param pListaPerros
+ * @return
+ */
 int perro_listar(LinkedList* pListaPerros)
 {
 	ePerro* auxPerro;
@@ -312,9 +412,11 @@ int perro_listar(LinkedList* pListaPerros)
 
     return ret;
 }
-
-
-
+/**
+ * @brief
+ * @param this
+ * @return
+ */
 int perro_laQueMapea (void* this)
 {
 	int ret = 1;
@@ -332,8 +434,11 @@ int perro_laQueMapea (void* this)
 
 	return ret;
 }
-
-
+/**
+ * @brief
+ * @param pListaPerros
+ * @return
+ */
 int perro_listarConRacion(LinkedList* pListaPerros)
 {
 	ePerro* auxPerro;
@@ -379,10 +484,11 @@ int perro_listarConRacion(LinkedList* pListaPerros)
 
     return ret;
 }
-
-
-
-
+/**
+ * @brief
+ * @param this
+ * @return
+ */
 int perro_laQueFiltra(void* this)
 {
 	ePerro* auxPerro;
@@ -408,9 +514,12 @@ int perro_laQueFiltra(void* this)
 
 	return ret;
 }
-
-
-
+/**
+ * @brief
+ * @param path
+ * @param pListaPerros
+ * @return
+ */
 int perro_guardarTexto(char* path, LinkedList* pListaPerros)
 {
 	FILE* pFile;
@@ -461,10 +570,36 @@ int perro_guardarTexto(char* path, LinkedList* pListaPerros)
 
 	return ret;
 }
+/**
+ * @brief
+ * @param path
+ * @param pListaPerritos
+ * @return
+ */
+int perro_guardarBinario(char* path, LinkedList* pListaPerritos)
+{
+	int ret = 1;
+	int len;
+	int i;
 
+	FILE* pFile;
 
+	if( path != NULL && pListaPerritos != NULL)
+	{
+		len = ll_len(pListaPerritos);
+		pFile = fopen(path, "wb");
+		if(pFile != NULL)
+		{
+			for( i = 0; i < len; i++)
+			{
+				ePerro* auxPerro = ll_get(pListaPerritos, i);
+				fwrite(auxPerro, sizeof(ePerro), 1 , pFile);
+			}
+		}
 
+		fclose(pFile);
+		ret = 0;
+	}
 
-
-
-
+	return ret;
+}

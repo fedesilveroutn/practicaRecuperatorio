@@ -41,9 +41,11 @@ float perro_getRacion(ePerro* this);
 
 //PARSER
 int perro_parser(FILE* pFile , LinkedList* pListaPerritos);
+int perro_parserBinary(FILE* pFile, LinkedList* pListaPerritos);
 
 //LEER Y GUARDAR EN LINKEDLIST
 int perro_load(char* path , LinkedList* pListaPerros);
+int perro_loadFromBinary(char* path, LinkedList* pListaPerros);
 
 
 //LISTAR PERROS
@@ -62,8 +64,9 @@ int perro_listarConRacion(LinkedList* pListaPerros);
 int perro_laQueFiltra(void* this);
 
 
-//GUARDAR TEXTO
+//GUARDAR
 int perro_guardarTexto(char* path, LinkedList* pListaPerros);
+int perro_guardarBinario(char* path, LinkedList* pListaPerritos);
 
 
 

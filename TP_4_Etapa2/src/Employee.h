@@ -5,6 +5,7 @@
 #include <string.h>
 #include "input.h"
 #define employee_H_INCLUDED
+
 typedef struct
 {
     int id;

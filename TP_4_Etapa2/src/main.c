@@ -11,6 +11,7 @@ int main()
 
     int option = 0;
     int flag = 0;
+    int flagCarga = 0;
     int lastIdMain;
 
     //obtengo el ultimo ID cargado en el archivo de texto
@@ -18,21 +19,29 @@ int main()
 
     //reservo espacio en memoria para dos linkedlist a traves del constructor
     LinkedList* listaEmpleados = ll_newLinkedList();
-    LinkedList* listaEmpleados2 = ll_newLinkedList();
+    LinkedList* listaEmpleadosClonada;
+
+    printf("\n******************************************************************************************************\n"
+    		"\nINSTRUCCIONES:\n"
+    		"\n1. PARA PODER OPERAR ES NECESARIO CARGAR EL ARCHIVO DE TEXTO O BINARIO PREVIAMENTE"
+    		"\n2. NO SE PUEDEN ABRIR DOS ARCHIVOS SIMULTANEAMENTE. ELIJA CUIDADOSAMENTE O DEBERA VOLVER A EMPEZAR"
+    		"\n3. LOS CAMBIOS QUE NO SEAN GUARDADOS SE PERDERAN\n"
+    		"\n*****************************************************************************************************\n");
+
 
     do{
 
     	getInt (&option,
 				 "\n------------------------------------MENU----------------------------------------\n"
 				 "\n1. Cargar los datos de los empleados desde el archivo data.csv (modo texto)."
-				 "\n2. Cargar los datos de los empleados desde el archivo data.csv (modo binario)."
+				 "\n2. Cargar los datos de los empleados desde el archivo dataBinary.csv (modo binario)."
 				 "\n3. Alta de empleado"
 				 "\n4. Modificar datos de empleado"
 				 "\n5. Baja de empleado"
 				 "\n6. Listar empleados"
 				 "\n7. Ordenar empleados"
 				 "\n8. Guardar los datos de los empleados en el archivo data.csv (modo texto)."
-				 "\n9. Guardar los datos de los empleados en el archivo data.csv (modo binario)."
+				 "\n9. Guardar los datos de los empleados en el archivo dataBinary.csv (modo binario)."
 				 "\n10.Agregar un empleado en una posicion específica"
 				 "\n11.Eliminar un empleado en una posicion específica"
 				 "\n12.Verificar si la lista esta vacia"
@@ -45,14 +54,14 @@ int main()
 				 "\nERROR!\n"
 				 "\n------------------------------------MENU----------------------------------------\n"
 				 "\n1. Cargar los datos de los empleados desde el archivo data.csv (modo texto)."
-				 "\n2. Cargar los datos de los empleados desde el archivo data.csv (modo binario)."
+				 "\n2. Cargar los datos de los empleados desde el archivo dataBinary.csv (modo binario)."
 				 "\n3. Alta de empleado"
 				 "\n4. Modificar datos de empleado"
 				 "\n5. Baja de empleado"
 				 "\n6. Listar empleados"
 				 "\n7. Ordenar empleados"
 				 "\n8. Guardar los datos de los empleados en el archivo data.csv (modo texto)."
-				 "\n9. Guardar los datos de los empleados en el archivo data.csv (modo binario)."
+				 "\n9. Guardar los datos de los empleados en el archivo dataBinary.csv (modo binario)."
 				 "\n10.Agregar un empleado en una posicion específica"
 				 "\n11.Eliminar un empleado en una posicion específica"
 				 "\n12.Verificar si la lista esta vacia"
@@ -69,11 +78,42 @@ int main()
 
         	//leo el archivo de texto, lo parseo y lo copio en mi linkedlist
             case 1:
-					if (!controller_loadFromText("src\\data.csv", listaEmpleados) )
+
+					if(!flagCarga)
 					{
-						printf("\n*****ARCHIVO LEIDO EXITOSAMENTE!*****\n");
-						systemPause("Presione enter para continuar...\n");
+						if (!controller_loadFromText("src\\data.csv", listaEmpleados) )
+						{
+							printf("\n*****ARCHIVO LEIDO EXITOSAMENTE!*****\n");
+							systemPause("Presione enter para continuar...\n");
+							flag = 1;
+							flagCarga = 1;
+						}
+
+						else
+						{
+							printf("\nERROR. NO SE HA PODIDO LEER EL ARCHIVO!");
+							systemPause("\nPresione enter para continuar...\n");
+						}
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO. NO PUEDE CARGAR DOS VECES EL MISMO ARCHIVO NI CARGAR DESDE TEXTO Y DESDE BINARIO A LA VEZ!");
+						systemPause("\nPresione enter para continuar...\n");
+					}
+
+					break;
+
+			//leo el archivo binario, lo parseo y lo cargo en mi linkedlist
+            case 2:
+            	if(!flagCarga)
+            	{
+					if(!controller_loadFromBinary("src\\dataBinary.csv", listaEmpleados) )
+					{
+						printf("\n*****ARCHIVO LEIDO (MODO BINARIO) EXITOSAMENTE!*****\n");
+						flagCarga = 1;
 						flag = 1;
+						systemPause("\nPresione enter para continuar...\n");
 					}
 
 					else
@@ -82,28 +122,21 @@ int main()
 						systemPause("\nPresione enter para continuar...\n");
 					}
 
-					break;
+            	}
 
-			//leo el archivo binario, lo parseo y lo cargo en mi linkedlist
-            case 2:
-            		if (flag)
-            		{
-						controller_loadFromBinary("src\\data.csv", listaEmpleados);
-						printf("\n*****ARCHIVO LEIDO (MODO BINARIO) EXITOSAMENTE!*****\n");
-            		}
-
-            		else
-					{
-						printf("\nERROR. ACCESO DENEGADO. DEBE CARGAR LOS DATOS DE LOS EMPLEADOS (MODO TEXTO) PREVIAMENTE!");
+            	else
+            	{
+						printf("\nERROR. ACCESO DENEGADO. NO PUEDE CARGAR DOS VECES EL MISMO ARCHIVO NI CARGAR DESDE TEXTO Y DESDE BINARIO A LA VEZ!");
 						systemPause("\nPresione enter para continuar...\n");
-					}
-					break;
+            	}
+
+				break;
 
 			//realizo el alta de un empleado
             case 3:
 					if (flag)
 					{
-						if ( controller_addEmployee(listaEmpleados, lastIdMain) )
+						if ( controller_addEmployee(listaEmpleados) )
 						{
 							lastIdMain++;
 						}
@@ -229,6 +262,7 @@ int main()
 					else
 					{
 						printf("\nERROR. ACCESO DENEGADO. DEBE CARGAR LOS DATOS DE LOS EMPLEADOS PREVIAMENTE!");
+						systemPause("Presione enter para continuar...\n");
 					}
 					break;
 
@@ -243,6 +277,7 @@ int main()
             		else
 					{
 						printf("\nERROR. ACCESO DENEGADO. DEBE CARGAR LOS DATOS DE LOS EMPLEADOS PREVIAMENTE!");
+						systemPause("Presione enter para continuar...\n");
 					}
 
             		break;
@@ -257,6 +292,7 @@ int main()
 					else
 					{
 						printf("\nERROR. ACCESO DENEGADO. DEBE CARGAR LOS DATOS DE LOS EMPLEADOS PREVIAMENTE!");
+						systemPause("Presione enter para continuar...\n");
 					}
 
             		break;
@@ -280,8 +316,9 @@ int main()
             case 13:
             		if(flag)
             		{
-            		listaEmpleados2 = ll_clone(listaEmpleados);
-            		controller_ListEmployee(listaEmpleados2);
+            		listaEmpleadosClonada = ll_clone(listaEmpleados);
+            		controller_ListEmployee(listaEmpleadosClonada);
+            		systemPause("\nPresione enter para continuar...\n");
             		}
 
 					else
@@ -297,6 +334,7 @@ int main()
             		if(flag)
             		{
             		controller_createSublist(listaEmpleados);
+            		systemPause("\nPresione enter para continuar...\n");
             		}
 
 					else
@@ -311,7 +349,8 @@ int main()
             case 15:
             		if(flag)
             		{
-            		controller_checkContainsAll(listaEmpleados, listaEmpleados2);
+            		controller_checkContainsAll(listaEmpleados, listaEmpleadosClonada);
+            		systemPause("\nPresione enter para continuar...\n");
             		}
 
 					else
@@ -321,6 +360,7 @@ int main()
 					}
             		break;
 
+
             //salgo del programa
             case 16:
             		printf("\nSaliendo del programa...");
@@ -328,7 +368,7 @@ int main()
             		break;
         }
 
-    }while(option != 15);
+    }while(option != 16);
 
     printf("\nFIN DEL PROGRAMA.");
 

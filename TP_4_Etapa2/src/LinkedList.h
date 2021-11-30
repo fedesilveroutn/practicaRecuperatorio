@@ -34,22 +34,22 @@ struct LinkedList
 
 
 //Publicas
-LinkedList* ll_newLinkedList(void);	/////////////////////////YA LA USE
-int ll_len(LinkedList* this); 	/////////////////////////YA LA USE
-Node* test_getNode(LinkedList* this, int nodeIndex); /////////////////////////YA LA USE
-int test_addNode(LinkedList* this, int nodeIndex,void* pElement); /////////////////////////YA LA USE
-int ll_add(LinkedList* this, void* pElement); //////////////////////////////////YA LA USE
-void* ll_get(LinkedList* this, int index);	/////////////////////////YA LA USE
-int ll_set(LinkedList* this, int index,void* pElement); /////////////////////////YA LA USE
-int ll_remove(LinkedList* this,int index);	/////////////////////////YA LA USE
-int ll_clear(LinkedList* this); /////////////////////////YA LA USE
-int ll_deleteLinkedList(LinkedList* this); /////////////////////////YA LA USE
-int ll_indexOf(LinkedList* this, void* pElement); /////////////////////////YA LA USE
-int ll_isEmpty(LinkedList* this); /////////////////////////YA LA USE
-int ll_push(LinkedList* this, int index, void* pElement); /////////////////////////YA LA USE
-void* ll_pop(LinkedList* this,int index); /////////////////////////YA LA USE
-int ll_contains(LinkedList* this, void* pElement); /////////////////////////YA LA USE
+LinkedList* ll_newLinkedList(void);
+int ll_len(LinkedList* this);
+Node* test_getNode(LinkedList* this, int nodeIndex);
+int test_addNode(LinkedList* this, int nodeIndex,void* pElement);
+int ll_add(LinkedList* this, void* pElement);
+void* ll_get(LinkedList* this, int index);
+int ll_set(LinkedList* this, int index,void* pElement);
+int ll_remove(LinkedList* this,int index);
+int ll_clear(LinkedList* this);
+int ll_deleteLinkedList(LinkedList* this);
+int ll_indexOf(LinkedList* this, void* pElement);
+int ll_isEmpty(LinkedList* this);
+int ll_push(LinkedList* this, int index, void* pElement);
+void* ll_pop(LinkedList* this,int index);
+int ll_contains(LinkedList* this, void* pElement);
 int ll_containsAll(LinkedList* this,LinkedList* this2);
-LinkedList* ll_subList(LinkedList* this,int from,int to); /////////////////////////YA LA USE
-LinkedList* ll_clone(LinkedList* this); /////////////////////////YA LA USE
-int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order); /////////////////////////YA LA USE
+LinkedList* ll_subList(LinkedList* this,int from,int to);
+LinkedList* ll_clone(LinkedList* this);
+int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order);

@@ -4,7 +4,7 @@
 
 /**
  * @brief reserva un lugar en la memoria del heap para una estructura del tipo Employee
- * @return
+ * @return retorna un empleado
  */
 Employee* employee_new()
 {
@@ -16,10 +16,10 @@ Employee* employee_new()
 /**
  * @brief reserva espacio en memoria dentro del heap para una estructura Employee y ademas carga los campos ID, NOMBRE y HORAS
  *
- * @param idStr
- * @param nombreStr
- * @param horasTrabajadasStr
- * @return
+ * @param idStr char*
+ * @param nombreStr char*
+ * @param horasTrabajadasStr char*
+ * @return retorna un empleado con sus campos cargados
  */
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* salarioStr)
 {
@@ -43,15 +43,12 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 	return employee;
 }
 
-
-//FUNCIONA
 /**
- * @fn
  * @brief asigna el ID recibido, al campo ID del puntero a una estructura Employee
  *
- * @param this
- * @param id
- * @return
+ * @param this Employee*
+ * @param id int
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_setId(Employee* this,int id)
 {
@@ -64,14 +61,12 @@ int employee_setId(Employee* this,int id)
 	return ret;
 }
 
-
-//FUNCIONA
 /**
  * @brief guarda el ID del campo de la estructura Employee, en el puntero que se pasa como segundo parámetro
  *
- * @param this
- * @param id
- * @return
+ * @param this Employee*
+ * @param id int*
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_getId(Employee* this,int* id)
 {
@@ -84,14 +79,12 @@ int employee_getId(Employee* this,int* id)
 	return ret;
 }
 
-
-//FUNCIONA
 /**
  * @brief asigna el NOMBRE recibido, al campo nombre de la estructura Employeee
  *
- * @param this
- * @param nombre
- * @return
+ * @param this Employee*
+ * @param nombre char*
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_setNombre(Employee* this,char* nombre)
 {
@@ -104,14 +97,12 @@ int employee_setNombre(Employee* this,char* nombre)
 	return ret;
 }
 
-
-//FUNCIONA
 /**
  * @brief guarda el NOMBRE del campo de la estructura Employee, en el puntero que se pasa como segundo parámetro
  *
- * @param this
- * @param nombre
- * @return
+ * @param this Employee*
+ * @param nombre char*
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_getNombre(Employee* this,char* nombre)
 {
@@ -124,13 +115,11 @@ int employee_getNombre(Employee* this,char* nombre)
 	return ret;
 }
 
-
-//FUNCIONA
 /**
  * @brief asigna las HORAS TRABAJADAS recibidas, al campo horasTrabajadas de la estructura Employeee
- * @param this
- * @param horasTrabajadas
- * @return
+ * @param this Employee*
+ * @param horasTrabajadas int
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
 {
@@ -143,13 +132,11 @@ int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
 	return ret;
 }
 
-
-//FUNCIONA
 /**
  * @brief guarda las HORAS TRABAJADAS del campo de la estructura Employee, en el puntero que se pasa como segundo parámetro
- * @param this
- * @param horasTrabajadas
- * @return
+ * @param this Employee*
+ * @param horasTrabajadas int*
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 {
@@ -162,13 +149,11 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 	return ret;
 }
 
-
-//FUNCIONA
 /**
  * @brief asigna el SUELDO recibido, al campo sueldo de la estructura Employeee
- * @param this
- * @param sueldo
- * @return
+ * @param this Employee*
+ * @param sueldo int
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_setSueldo(Employee* this,int sueldo)
 {
@@ -181,14 +166,11 @@ int employee_setSueldo(Employee* this,int sueldo)
 	return ret;
 }
 
-
-
-//FUNCIONA
 /**
  * @brief guarda el SUELDO del campo de la estructura Employee, en el puntero que se pasa como segundo parámetro
- * @param this
- * @param sueldo
- * @return
+ * @param this Employee*
+ * @param sueldo int*
+ * @return retorna -1 si hubo error o 0 si funciono correctamente
  */
 int employee_getSueldo(Employee* this,int* sueldo)
 {
@@ -201,7 +183,13 @@ int employee_getSueldo(Employee* this,int* sueldo)
 	return ret;
 }
 
-
+/**
+ * @brief compara los ids de dos empleados
+ *
+ * @param pointer1 void*
+ * @param pointer2 void*
+ * @return retorna -1 si el primer id es menor que el segundo, o 1 si si mayor o -2 si son iguales
+ */
 int employee_sortById (void* pointer1 , void* pointer2)
 {
 	Employee* aux1 = (Employee*) pointer1;
@@ -233,6 +221,13 @@ int employee_sortById (void* pointer1 , void* pointer2)
 	return ret;
 }
 
+/**
+ * @brief compara los nombres de dos empleados
+ *
+ * @param pointer1 void*
+ * @param pointer2 void*
+ * @return retorna el resultado de la comparacion entre dos cadenas de caracteres
+ */
 int employee_sortByName (void* pointer1 , void* pointer2)
 {
 	Employee* aux1 = (Employee*) pointer1;
@@ -252,7 +247,13 @@ int employee_sortByName (void* pointer1 , void* pointer2)
 	return ret;
 }
 
-
+/**
+ * @brief compara la cantidad de horas trabajas de dos empleados
+ *
+ * @param pointer1 void*
+ * @param pointer2 void*
+ * @return retorna -1 si la cantidad de horas del primer empleado es menor, o 1 si es mayor o -2 si son iguales
+ */
 int employee_sortByHours (void* pointer1 , void* pointer2)
 {
 	Employee* aux1 = (Employee*) pointer1;
@@ -285,7 +286,13 @@ int employee_sortByHours (void* pointer1 , void* pointer2)
 	return ret;
 }
 
-
+/**
+ * @brief compara el salario de dos empleados
+ *
+ * @param pointer1 void*
+ * @param pointer2 void*
+ * @return  retorna -1 si el salario del primer empleado es menor, o 1 si es mayor, o -2 si son iguales
+ */
 int employee_sortBySalary(void* pointer1 , void* pointer2)
 {
 	Employee* aux1 = (Employee*)pointer1;
@@ -311,16 +318,18 @@ int employee_sortBySalary(void* pointer1 , void* pointer2)
 
 		else if (auxSalary1 == auxSalary2)
 		{
-			ret = 0;
+			ret = -2;
 		}
 	}
 	return ret;
 }
 
-
-
-
-
+/**
+ * @brief aniade un empleado
+ *
+ * @param lastIdFromMain int
+ * @return retorna NULL si hubo error o un empleado cargado si funciono correctamente
+ */
 Employee* employee_add (int lastIdFromMain)
 {
 	Employee* newEmployee = NULL;
@@ -334,7 +343,7 @@ Employee* employee_add (int lastIdFromMain)
 
 	auxNewId = lastIdFromMain + 1;
 	getString(newName, "\nIngrese el NOMBRE del nuevo empleado: ", "ERROR. Reingrese un NOMBRE valido (hasta 127 caracteres): ", 127);
-	getInt(&auxNewHours, "Ingrese las HORAS TRABAJADAS del nuevo empleado: ", "ERROR. Reingrese cantidad de HORAS TRABAJADAS valida (hasta 1000): ", 0 , 1000);
+	getInt(&auxNewHours,"Ingrese las HORAS TRABAJADAS del nuevo empleado: ","ERROR. Reingrese cantidad de HORAS TRABAJADAS valida (hasta 1000): ",0 ,1000);
 	getInt(&auxNewSalary, "Ingrese el SALARIO del nuevo empleado: ", "ERROR. Reingrese un SALARIO valido (1000-1000000): ", 1000 , 1000000);
 
 	itoa(auxNewId, newId , 10);
@@ -345,7 +354,12 @@ Employee* employee_add (int lastIdFromMain)
 	return newEmployee;
 }
 
-
+/**
+ * @brief muestra un empleado y pide al usuario que confirme los datos ingresados
+ *
+ * @param employee Employee*
+ * @return retorna la respuesta del usuario (1 = SI / 0 = NO)
+ */
 int employee_confirmacion(Employee* employee)
 {
 	int id;
@@ -369,7 +383,11 @@ int employee_confirmacion(Employee* employee)
 	return ret;
 }
 
-
+/**
+ * @brief elimina un empleado
+ *
+ * @param this Employee*
+ */
 void employee_delete(Employee* this)
 {
 	free(this);

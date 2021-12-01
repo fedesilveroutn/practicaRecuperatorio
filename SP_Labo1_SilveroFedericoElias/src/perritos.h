@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "input.h"
 #include "LinkedList.h"
 #define PERRITOS_H_
 
@@ -50,14 +51,12 @@ int perro_loadFromBinary(char* path, LinkedList* pListaPerros);
 
 //LISTAR PERROS
 int perro_listar(LinkedList* pListaPerros);
+int perro_listarConRacion(LinkedList* pListaPerros);
+int perro_listarConCriterio(LinkedList* pListaPerros);
 
 
 //CALCULAR RACION
 int perro_laQueMapea (void* this);
-
-
-//LISTAR CON RACION
-int perro_listarConRacion(LinkedList* pListaPerros);
 
 
 //FILTRO
@@ -68,7 +67,12 @@ int perro_laQueFiltra(void* this);
 int perro_guardarTexto(char* path, LinkedList* pListaPerros);
 int perro_guardarBinario(char* path, LinkedList* pListaPerritos);
 
-
-
+//SORT
+int perro_sortByName(void* pointer1 , void* pointer2);
+int perro_sortByRaza(void* pointer1, void* pointer2);
+int perro_sortById(void* pointer1, void* pointer2);
+int perro_sortByPeso(void* pointer1, void* pointer2);
+int perro_sortByEdad(void* pointer1, void* pointer2);
+int perro_sortByCantidadComida(void* pointer1, void* pointer2);
 
 #endif /* PERRITOS_H_ */

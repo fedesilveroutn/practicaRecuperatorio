@@ -366,6 +366,164 @@ int perro_sortByName(void* pointer1 , void* pointer2)
 }
 /**
  * @brief
+ * @param pointer1
+ * @param pointer2
+ * @return
+ */
+int perro_sortByRaza(void* pointer1, void* pointer2)
+{
+	ePerro* aux1 = (ePerro*) pointer1;
+	ePerro* aux2 = (ePerro*) pointer2;
+	char auxRaza1[21];
+	char auxRaza2[21];
+	int ret;
+
+	if(pointer1 != NULL && pointer2 != NULL)
+	{
+		perro_getRaza(aux1, auxRaza1);
+		perro_getRaza(aux2, auxRaza2);
+		ret = strcmp(auxRaza1, auxRaza2);
+	}
+
+	aux1 = NULL;
+	aux2 = NULL;
+	return ret;
+}
+/**
+ * @brief
+ * @param pointer1
+ * @param pointer2
+ * @return
+ */
+int perro_sortById(void* pointer1, void* pointer2)
+{
+	ePerro* aux1 = (ePerro*) pointer1;
+	ePerro* aux2 = (ePerro*) pointer2;
+	int ret = -2;
+	int auxId1;
+	int auxId2;
+
+	if(pointer1 != NULL && pointer2 != NULL)
+	{
+		auxId1 = perro_getId(aux1);
+		auxId2 = perro_getId(aux2);
+		if(auxId1 > auxId2)
+		{
+			ret = 1;
+		}
+		else if( auxId1 < auxId2)
+		{
+			ret = -1;
+		}
+		else
+		{
+			ret = 0;
+		}
+	}
+	return ret;
+}
+/**
+ * @brief
+ * @param pointer1
+ * @param pointer2
+ * @return
+ */
+int perro_sortByPeso(void* pointer1, void* pointer2)
+{
+	ePerro* aux1 = (ePerro*) pointer1;
+	ePerro* aux2 = (ePerro*) pointer2;
+	float auxPeso1;
+	float auxPeso2;
+	int ret = -2;
+
+	if(pointer1 != NULL && pointer2 != NULL)
+	{
+		auxPeso1 = perro_getPeso(aux1);
+		auxPeso2 = perro_getPeso(aux2);
+		if(auxPeso1 > auxPeso2)
+		{
+			ret = 1;
+		}
+		else if(auxPeso1 < auxPeso2)
+		{
+			ret = -1;
+		}
+		else
+		{
+			ret = 0;
+		}
+	}
+	return ret;
+}
+/**
+ * @brief
+ * @param pointer1
+ * @param pointer2
+ * @return
+ */
+int perro_sortByEdad(void* pointer1, void* pointer2)
+{
+	ePerro* aux1 = (ePerro*) pointer1;
+	ePerro* aux2 = (ePerro*) pointer2;
+	int ret = -2;
+	int auxEdad1;
+	int auxEdad2;
+
+	if(pointer1 != NULL && pointer2 != NULL)
+	{
+		auxEdad1 = perro_getEdad(aux1);
+		auxEdad2 = perro_getEdad(aux2);
+		if(auxEdad1 > auxEdad2)
+		{
+			ret = 1;
+		}
+		else if(auxEdad1 < auxEdad2)
+		{
+			ret = -1;
+		}
+		else
+		{
+			ret = 0;
+		}
+	}
+	return ret;
+}
+/**
+ * @brief
+ * @param pointer1
+ * @param pointer2
+ * @return
+ */
+int perro_sortByCantidadComida(void* pointer1, void* pointer2)
+{
+	ePerro* aux1 = (ePerro*) pointer1;
+	ePerro* aux2 = (ePerro*) pointer2;
+	float auxRacion1;
+	float auxRacion2;
+	int ret = -2;
+
+
+	if(pointer1 != NULL && pointer2 != NULL)
+	{
+		auxRacion1 = perro_getRacion(aux1);
+		auxRacion2 = perro_getRacion(aux2);
+		if(auxRacion1 > auxRacion2)
+		{
+			ret = 1;
+		}
+		else if(auxRacion1 < auxRacion2)
+		{
+			ret = -1;
+		}
+		else
+		{
+			ret = 0;
+		}
+	}
+	return ret;
+}
+/**
+ * @brief
  * @param pListaPerros
  * @return
  */
@@ -411,28 +569,6 @@ int perro_listar(LinkedList* pListaPerros)
 	}
 
     return ret;
-}
-/**
- * @brief
- * @param this
- * @return
- */
-int perro_laQueMapea (void* this)
-{
-	int ret = 1;
-	float cantidad;
-	ePerro* auxPerro;
-
-	auxPerro = this;
-
-	if(this != NULL)
-	{
-		cantidad = auxPerro->peso * 23;
-		perro_setCantidadComida(this, cantidad);
-		ret = 0;
-	}
-
-	return ret;
 }
 /**
  * @brief
@@ -483,6 +619,123 @@ int perro_listarConRacion(LinkedList* pListaPerros)
 	}
 
     return ret;
+}
+/**
+ * @brief
+ * @param pListaPerros
+ * @param pFunc
+ * @return
+ */
+int perro_listarConCriterio(LinkedList* pListaPerros)
+{
+	ePerro* auxPerro;
+	int criterio;
+	int ret = 1;
+	int len;
+	int i;
+
+	int auxId;
+	int retRaza;
+	int auxEdad;
+	int retNombre;
+	char auxRaza[21];
+	char auxNombre[21];
+	float auxPeso;
+	float auxRacion;
+
+	int (*pFuncionOrdenar) (void*, void*);//puntero a funcion
+
+	getInt(&criterio,	"\n==================CRITERIO DE ORDENAMIENTO==================\n"
+						"\n1. SEGUN ID"
+						"\n2. SEGUN NOMBRE"
+						"\n3. SEGUN PESO"
+						"\n4. SEGUN EDAD"
+						"\n5. SEGUN RAZA"
+						"\n6. SEGUN CANTIDAD DE COMIDA"
+						"\n============================================================\n"
+						"\nIngrese un criterio de ordenamiento: ",
+						"\n==================CRITERIO DE ORDENAMIENTO==================\n"
+						"\n1. SEGUN ID"
+						"\n2. SEGUN NOMBRE"
+						"\n3. SEGUN PESO"
+						"\n4. SEGUN EDAD"
+						"\n5. SEGUN RAZA"
+						"\n6. SEGUN CANTIDAD DE COMIDA"
+						"\n============================================================\n"
+						"\nERROR. Reingrese un criterio de ordenamiento valido (1-6): ", 1 , 6);
+
+	printf("\nLISTANDO PERROS SEGUN UN CRITERIO ESPECIFICO, AGUARDE UNOS SEGUNDOS...\n\n");
+	switch(criterio)
+	{
+		case 1:
+				pFuncionOrdenar = perro_sortById;
+				ll_sort(pListaPerros, pFuncionOrdenar, 1);
+				break;
+		case 2:
+				pFuncionOrdenar = perro_sortByName;
+				ll_sort(pListaPerros, pFuncionOrdenar, 1);
+				break;
+		case 3:
+				pFuncionOrdenar = perro_sortByPeso;
+				ll_sort(pListaPerros, pFuncionOrdenar, 1);
+				break;
+		case 4:
+				pFuncionOrdenar = perro_sortByEdad;
+				ll_sort(pListaPerros, pFuncionOrdenar, 1);
+				break;
+		case 5:
+				pFuncionOrdenar = perro_sortByRaza;
+				ll_sort(pListaPerros, pFuncionOrdenar, 1);
+				break;
+		case 6:
+				pFuncionOrdenar = perro_sortByCantidadComida;
+				ll_sort(pListaPerros, pFuncionOrdenar, 1);
+				break;
+	}
+
+	if(pListaPerros != NULL)
+	{
+		len = ll_len(pListaPerros);
+		printf("\n%-5s %-16s %-10s %-10s %-20s %-20s\n", "ID", "NOMBRE", "PESO", "EDAD", "RAZA", "RACION");
+		for (i = 0; i < len + 1; i++ )
+		{
+			auxPerro = (ePerro*) ll_get(pListaPerros, i);
+			auxId = perro_getId(auxPerro);
+			retNombre = perro_getNombre(auxPerro, auxNombre);
+			auxPeso = perro_getPeso(auxPerro);
+			auxEdad = perro_getEdad(auxPerro);
+			retRaza = perro_getRaza(auxPerro, auxRaza);
+			auxRacion = perro_getRacion(auxPerro);
+			if(auxId != -1 && retNombre != -1 && auxPeso != -1 && auxEdad != -1 && retRaza != -1)
+			{
+				printf("\n%-5d %-16s %-10.2f %-10d %-20s %-20.2f", auxId, auxNombre, auxPeso, auxEdad, auxRaza, auxRacion );
+			}
+		}
+		ret = 0;
+	}
+	return ret;
+}
+/**
+ * @brief
+ * @param this
+ * @return
+ */
+int perro_laQueMapea (void* this)
+{
+	int ret = 1;
+	float cantidad;
+	ePerro* auxPerro;
+
+	auxPerro = this;
+
+	if(this != NULL)
+	{
+		cantidad = auxPerro->peso * 23;
+		perro_setCantidadComida(this, cantidad);
+		ret = 0;
+	}
+
+	return ret;
 }
 /**
  * @brief

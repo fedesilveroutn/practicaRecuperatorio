@@ -24,6 +24,8 @@ int main(void) {
 	int (*pFilterFunction)(void*);
 
 	int opcion;
+	int flag = 0;//Para que no muestre basura
+	int flagLoad = 0;//Para que no cargue el archivo dos veces
 
 	do
 	{
@@ -36,6 +38,7 @@ int main(void) {
 						"\n6. GUARDAR (MODO TEXTO)"
 						"\n7. GUARDAR (MODO BINARIO)"
 						"\n8. CARGAR DATOS DE ARCHIVO (MODO BINARIO)"
+						"\n9. LISTAR PERROS ORDENADOS POR UN CRITERIO ESPECIFICO"
 						"\n10.SALIR"
 						"\n====================================================================\n"
 						"\nIngrese una opcion: ",
@@ -48,6 +51,7 @@ int main(void) {
 						"\n6. GUARDAR (MODO TEXTO)"
 						"\n7. GUARDAR (MODO BINARIO)"
 						"\n8. CARGAR DATOS DE ARCHIVO (MODO BINARIO)"
+						"\n9. LISTAR PERROS ORDENADOS POR UN CRITERIO ESPECIFICO"
 						"\n10.SALIR"
 						"\n====================================================================\n"
 						"\nERROR. Reingrese una opcion valida (1-7): ", 1 , 10);
@@ -55,57 +59,167 @@ int main(void) {
 		switch(opcion)
 		{
 			case 1:
-					//PARA LEER Y GUARDAR DINAMICAMENTE EN LINKEDLIST
-					perro_load("src\\perritos.csv", pListaPerros);
+					if(!flagLoad)
+					{
+						//PARA LEER Y GUARDAR DINAMICAMENTE EN LINKEDLIST
+						perro_load("src\\perritos.csv", pListaPerros);
+						printf("\n***ARCHIVO LEIDO EXITOSAMENTE***");
+						flag = 1;
+						flagLoad = 1;
+					}
+
+					else
+					{
+						printf("\nERROR. EL ARCHIVO YA FUE CARGADO!");
+					}
+
+
 					break;
 
 			case 2:
-					//PARA LISTAR
-					printf("\nORDENANDO PERROS...");
-					perro_listar(pListaPerros);
+					if(flag)
+					{
+						//PARA LISTAR
+						printf("\nLISTANDO PERROS, AGUARDE UNOS SEGUNDOS...");
+						perro_listar(pListaPerros);
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
 					break;
 
 			case 3:
-					//PARA CALCULAR RACION
-					pFunction = perro_laQueMapea;
-					ll_map(pListaPerros, pFunction);
+					if(flag)
+					{
+						//PARA CALCULAR RACION
+						pFunction = perro_laQueMapea;
+						ll_map(pListaPerros, pFunction);
+						printf("\n***RACION DIARIA CALCULADA EXITOSAMENTE***");
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
 					break;
 
 			case 4:
-					//PARA LISTAR CON RACION
-					printf("\nCALCULANDO RACION DE COMIDA...");
-					perro_listarConRacion(pListaPerros);
+					if(flag)
+					{
+						//PARA LISTAR CON RACION
+						printf("\nLISTANDO PERROS CON RACION DE COMIDA, AGUARDE UNOS SEGUNDOS...");
+						perro_listarConRacion(pListaPerros);
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
 					break;
 
 			case 5:
-					//PARA FILTRAR
-					pFilterFunction = perro_laQueFiltra;
-					pListaFiltrada = ll_filter(pListaPerros, pFilterFunction);
-					perro_listarConRacion(pListaFiltrada);
+					if(flag)
+					{
+						//PARA FILTRAR
+						pFilterFunction = perro_laQueFiltra;
+						pListaFiltrada = ll_filter(pListaPerros, pFilterFunction);
+						printf("\nLISTA FILTRADA...\n");
+						perro_listarConRacion(pListaFiltrada);
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
 					break;
 
 			case 6:
-					//PARA GUARDAR EN MODO TEXTO
-					perro_guardarTexto("src\\galgosFlaquitos.csv", pListaFiltrada);
+					if(flag)
+					{
+						//PARA GUARDAR EN MODO TEXTO
+						perro_guardarTexto("src\\galgosFlaquitos.csv", pListaFiltrada);
+						printf("\n***ARCHIVO GUARDADO (MODO TEXTO) EXITOSAMENTE***");
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
 					break;
 
 			case 7:
-					//PARA GUARDAR EN MODO BINARIO
-					perro_guardarBinario("src\\galgosFlaquitosBinarios.csv", pListaFiltrada);
+					if(flag)
+					{
+						//PARA GUARDAR EN MODO BINARIO
+						//perro_guardarBinario("src\\galgosFlaquitosBinarios.csv", pListaFiltrada);
+						perro_guardarBinario("src\\perritosOrdenadosPorCriterio.csv", pListaPerros);
+						printf("\n***ARCHIVO GUARDADO (MODO BINARIO) EXITOSAMENTE***");
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
 					break;
 
 			case 8:
-					//PARA LEER EN MODO BINARIO Y GUARDAR DINAMICAMENTE EN LINKEDLIST
-					perro_loadFromBinary("src\\galgosFlaquitosBinarios.csv", pListaPerros);
+					if(!flagLoad)
+					{
+						//PARA LEER EN MODO BINARIO Y GUARDAR DINAMICAMENTE EN LINKEDLIST
+						//perro_loadFromBinary("src\\galgosFlaquitosBinarios.csv", pListaPerros);
+						perro_loadFromBinary("src\\perritosOrdenadosPorCriterio.csv", pListaPerros);
+						printf("\n***ARCHIVO LEIDO (MODO BINARIO) EXITOSAMENTE***");
+						flag = 1;
+						flagLoad = 1;
+					}
+
+					else
+					{
+						printf("\nERROR. EL ARCHIVO YA FUE CARGADO!");
+					}
 					break;
 
+			case 9:
+					if(flag)
+					{
+						perro_listarConCriterio(pListaPerros);
+					}
+
+					else
+					{
+						printf("\nERROR. ACCESO DENEGADO!");
+					}
+					break;
+
+
+			case 10:
+					printf("\nSaliendo del programa...");
+					break;
 		}
 
 		systemPause("\nPresione ENTER para continuar...");
 
 	}while(opcion != 10);
 
+
+	printf("\nFIN DEL PROGRAMA.");
+
+
+	return 0;
+}
+
+
+
+
+
+
+
 /*
+ * CODIGO DE RESPALDO
+ *
+ *
 	//PARA LEER Y GUARDAR DINAMICAMENTE EN LINKEDLIST
 	perro_load("src\\perritos.csv", pListaPerros);
 
@@ -135,14 +249,3 @@ int main(void) {
 
 	//PARA GUARDAR EN MODO TEXTO
 	perro_guardarTexto("src\\galgosFlaquitos.csv", pListaFiltrada);*/
-
-	printf("\nFIN DEL PROGRAMA.");
-
-
-	return 0;
-}
-
-
-
-
-
